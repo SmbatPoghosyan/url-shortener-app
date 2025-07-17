@@ -237,16 +237,13 @@ When running with Docker:
 - ✅ URL shortening with custom aliases
 - ✅ Click analytics and tracking
 - ✅ User authentication and management
-- ✅ Link expiration settings
-- ✅ QR code generation
-- ✅ Bulk URL processing
 - ✅ Rate limiting and security
 
 ### Technical Features
 
 - 🐳 Docker containerization with health checks
 - 🔄 NestJS framework with TypeORM
-- 📱 React 19 with TypeScript
+- 📱 React with TypeScript
 - 🎨 Tailwind CSS for modern UI
 - 🔐 JWT authentication with Passport.js
 - �️ Rate limiting and validation
