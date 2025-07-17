@@ -26,7 +26,7 @@ const UrlItem: React.FC<Props> = ({ url, onUpdate, onDelete }) => {
     setError('');
     try {
       const res = await apiFetch(`http://localhost:3000/urls/${url.id}`, {
-        method: 'PUT',
+        method: 'PATCH',
         body: JSON.stringify({ slug }),
       });
       if (!res.ok) {
