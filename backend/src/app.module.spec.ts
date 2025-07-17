@@ -1,3 +1,4 @@
+process.env.NODE_ENV = "test";
 import { Test, TestingModule } from '@nestjs/testing';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { DataSource } from 'typeorm';

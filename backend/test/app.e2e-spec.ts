@@ -1,13 +1,14 @@
+process.env.NODE_ENV = "test";
 import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import * as request from 'supertest';
 import { App } from 'supertest/types';
 import { Module } from '@nestjs/common';
-import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './../src/auth/auth.module';
 import { User } from './../src/users/user.entity';
 import { AppController } from './../src/app.controller';
+import { AppModule } from "../src/app.module";
 import { AppService } from './../src/app.service';
 
 @Module({

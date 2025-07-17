@@ -3,20 +3,31 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
+import { UrlsModule } from './urls/urls.module';
 
 @Module({
   imports: [
-    TypeOrmModule.forRoot({
-      type: 'postgres',
-      host: 'localhost',
-      port: 5432,
-      username: 'postgres',
-      password: 'postgres',
-      database: 'url_shortener',
-      synchronize: true,
-      autoLoadEntities: true,
-    }),
+    TypeOrmModule.forRoot(
+      process.env.NODE_ENV === 'test'
+        ? {
+            type: 'sqlite',
+            database: ':memory:',
+            synchronize: true,
+            autoLoadEntities: true,
+          }
+        : {
+            type: 'postgres',
+            host: 'localhost',
+            port: 5432,
+            username: 'autocado',
+            password: 'autocado1',
+            database: 'autocado',
+            synchronize: true,
+            autoLoadEntities: true,
+          },
+    ),
     AuthModule,
+    UrlsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

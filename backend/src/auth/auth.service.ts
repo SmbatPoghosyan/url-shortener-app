@@ -19,10 +19,16 @@ export class AuthService {
     if (existing) {
       throw new UnauthorizedException('Email already registered');
     }
-    const hash = await bcrypt.hash(dto.password, 10);
+    let hash: string;
+    try {
+      hash = await bcrypt.hash(dto.password, 10);
+    } catch (error: any) {
+      console.error('Error while hashing password:', error);
+      throw new UnauthorizedException('Error while hashing the password');
+    }
     const user = this.users.create({ email: dto.email, password: hash });
     const saved = await this.users.save(user);
-    const { password, ...rest } = saved;
+    const { ...rest } = saved;
     return rest as Omit<User, 'password'>;
   }
 
