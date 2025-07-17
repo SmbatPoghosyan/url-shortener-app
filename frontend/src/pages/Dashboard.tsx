@@ -2,12 +2,26 @@ import React, { useEffect, useState } from 'react';
 import URLForm from '../components/URLForm';
 import { apiFetch, API_BASE_URL } from '../api';
 import UrlItem, { Url } from '../components/UrlItem';
+import Button from '../components/ui/Button';
 
 
 const Dashboard: React.FC = () => {
   const [urls, setUrls] = useState<Url[]>([]);
   const [error, setError] = useState('');
   const [created, setCreated] = useState<Url | null>(null);
+  const [copied, setCopied] = useState(false);
+
+  const handleCopyCreated = async () => {
+    if (created) {
+      try {
+        await navigator.clipboard.writeText(`${API_BASE_URL}/${created.slug}`);
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
+      } catch (err) {
+        console.error('Failed to copy: ', err);
+      }
+    }
+  };
 
   const fetchUrls = async () => {
     try {
@@ -44,17 +58,28 @@ const Dashboard: React.FC = () => {
       <h1 className="text-2xl font-semibold">Dashboard</h1>
       <URLForm onCreated={handleCreated} />
       {created && (
-        <p className="text-green-700">
-          Short URL created:{' '}
-          <a
-            href={`${API_BASE_URL}/${created.slug}`}
-            className="underline"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            {`${API_BASE_URL}/${created.slug}`}
-          </a>
-        </p>
+        <div className="bg-green-50 border border-green-200 rounded-md p-4">
+          <p className="text-green-700 mb-2">
+            Short URL created successfully!
+          </p>
+          <div className="flex items-center justify-between">
+            <a
+              href={`${API_BASE_URL}/${created.slug}`}
+              className="text-blue-600 underline break-all"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {`${API_BASE_URL}/${created.slug}`}
+            </a>
+            <Button
+              type="button"
+              onClick={handleCopyCreated}
+              className="ml-2 px-3 py-1 text-xs bg-blue-500 hover:bg-blue-600"
+            >
+              {copied ? 'Copied!' : 'Copy'}
+            </Button>
+          </div>
+        </div>
       )}
       {error && <p className="text-red-600">{error}</p>}
       <ul className="space-y-2">

@@ -7,6 +7,7 @@ export interface Url {
   id: string;
   slug: string;
   longUrl: string;
+  clickCount: number;
 }
 
 interface Props {
@@ -20,6 +21,19 @@ const UrlItem: React.FC<Props> = ({ url, onUpdate, onDelete }) => {
   const [slug, setSlug] = useState(url.slug);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [copied, setCopied] = useState(false);
+
+  const shortUrl = `${API_BASE_URL}/${url.slug}`;
+
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(shortUrl);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch (err) {
+      console.error('Failed to copy: ', err);
+    }
+  };
 
   const handleSave = async () => {
     setLoading(true);
@@ -88,24 +102,38 @@ const UrlItem: React.FC<Props> = ({ url, onUpdate, onDelete }) => {
         </div>
       ) : (
         <>
-          <span>
-            <a
-              href={url.longUrl}
-              className="text-blue-600 underline"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              {url.longUrl}
-            </a>
-          </span>
-          <a
-            href={`${API_BASE_URL}/${url.slug}`}
-            className="text-sm text-gray-600 underline"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            {`${API_BASE_URL}/${url.slug}`}
-          </a>
+          <div className="space-y-2">
+            <span>
+              <a
+                href={url.longUrl}
+                className="text-blue-600 underline break-all"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {url.longUrl}
+              </a>
+            </span>
+            <div className="flex items-center justify-between">
+              <a
+                href={shortUrl}
+                className="text-sm text-gray-600 underline break-all"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {shortUrl}
+              </a>
+              <Button
+                type="button"
+                onClick={handleCopy}
+                className="ml-2 px-3 py-1 text-xs bg-blue-500 hover:bg-blue-600"
+              >
+                {copied ? 'Copied!' : 'Copy'}
+              </Button>
+            </div>
+            <div className="text-sm text-gray-500">
+              Visits: {url.clickCount}
+            </div>
+          </div>
           {error && <p className="text-red-600 text-sm">{error}</p>}
           <div className="flex gap-2">
             <Button type="button" onClick={() => setIsEditing(true)}>

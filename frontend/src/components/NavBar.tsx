@@ -13,8 +13,8 @@ const NavBar: React.FC = () => {
 
   return (
     <nav className="flex gap-4 p-4 bg-primary text-white shadow">
-      <Link className="font-semibold hover:underline" to="/">
-        Home
+      <Link className="font-semibold hover:underline" to="/dashboard">
+        URL Shortener
       </Link>
       {token ? (
         <>
