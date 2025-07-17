@@ -67,4 +67,47 @@ describe('Urls (e2e)', () => {
       .expect(302)
       .expect('Location', longUrl);
   });
+
+  it('lists, updates and deletes', async () => {
+    const longUrl = 'https://example.org';
+    const createRes = await request(app.getHttpServer())
+      .post('/urls')
+      .set('Authorization', `Bearer ${token}`)
+      .send({ longUrl })
+      .expect(201);
+
+    const id = createRes.body.id;
+    const slug = createRes.body.slug;
+
+    const listRes = await request(app.getHttpServer())
+      .get('/urls')
+      .set('Authorization', `Bearer ${token}`)
+      .expect(200);
+    expect(listRes.body.length).toBe(1);
+    expect(listRes.body[0].slug).toBe(slug);
+
+    const newSlug = 'updated';
+    await request(app.getHttpServer())
+      .patch(`/urls/${id}`)
+      .set('Authorization', `Bearer ${token}`)
+      .send({ slug: newSlug })
+      .expect(200);
+
+    const listRes2 = await request(app.getHttpServer())
+      .get('/urls')
+      .set('Authorization', `Bearer ${token}`)
+      .expect(200);
+    expect(listRes2.body[0].slug).toBe(newSlug);
+
+    await request(app.getHttpServer())
+      .delete(`/urls/${id}`)
+      .set('Authorization', `Bearer ${token}`)
+      .expect(200);
+
+    const listRes3 = await request(app.getHttpServer())
+      .get('/urls')
+      .set('Authorization', `Bearer ${token}`)
+      .expect(200);
+    expect(listRes3.body.length).toBe(0);
+  });
 });

@@ -57,6 +57,16 @@ $ npm run test:e2e
 $ npm run test:cov
 ```
 
+## URL Management
+
+Authenticated users can manage their shortened URLs using these endpoints:
+
+- `GET /urls` – list URLs owned by the current user.
+- `PATCH /urls/:id` – update an existing short link (e.g. change slug or long URL).
+- `DELETE /urls/:id` – delete a short link you own.
+
+All routes require a valid JWT token.
+
 ## Deployment
 
 When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
