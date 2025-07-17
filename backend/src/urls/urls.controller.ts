@@ -35,11 +35,7 @@ export class UrlsController {
 
   @Patch('urls/:id')
   @UseGuards(JwtAuthGuard)
-  update(
-    @Param('id') id: number,
-    @Body() dto: UpdateUrlDto,
-    @Req() req: any,
-  ) {
+  update(@Param('id') id: number, @Body() dto: UpdateUrlDto, @Req() req: any) {
     return this.urlsService.update(id, dto, req.user.userId);
   }
 
@@ -47,6 +43,12 @@ export class UrlsController {
   @UseGuards(JwtAuthGuard)
   remove(@Param('id') id: number, @Req() req: any) {
     return this.urlsService.remove(id, req.user.userId);
+  }
+
+  @Get('urls/:id/stats')
+  @UseGuards(JwtAuthGuard)
+  stats(@Param('id') id: number, @Req() req: any) {
+    return this.urlsService.stats(id, req.user.userId);
   }
 
   @Get(':slug')

@@ -44,6 +44,7 @@ export class UrlsService {
     if (!url) {
       throw new NotFoundException('Slug not found');
     }
+    await this.urls.increment({ id: url.id }, 'clickCount', 1);
     return url.longUrl;
   }
 
@@ -81,5 +82,16 @@ export class UrlsService {
       throw new ForbiddenException();
     }
     await this.urls.delete(id);
+  }
+
+  async stats(id: number, userId: number): Promise<{ clickCount: number }> {
+    const url = await this.urls.findOne({ where: { id }, relations: ['user'] });
+    if (!url) {
+      throw new NotFoundException('Url not found');
+    }
+    if (url.user?.id !== userId) {
+      throw new ForbiddenException();
+    }
+    return { clickCount: url.clickCount };
   }
 }

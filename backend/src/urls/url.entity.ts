@@ -18,6 +18,9 @@ export class Url {
   @Column()
   longUrl: string;
 
+  @Column({ default: 0 })
+  clickCount: number;
+
   @CreateDateColumn()
   createdAt: Date;
 

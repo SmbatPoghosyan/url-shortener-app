@@ -1,4 +1,4 @@
-process.env.NODE_ENV = "test";
+process.env.NODE_ENV = 'test';
 import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
@@ -109,5 +109,32 @@ describe('Urls (e2e)', () => {
       .set('Authorization', `Bearer ${token}`)
       .expect(200);
     expect(listRes3.body.length).toBe(0);
+  });
+
+  it('tracks visit counts', async () => {
+    const longUrl = 'https://example.net';
+    const createRes = await request(app.getHttpServer())
+      .post('/urls')
+      .set('Authorization', `Bearer ${token}`)
+      .send({ longUrl })
+      .expect(201);
+
+    const id = createRes.body.id;
+    const slug = createRes.body.slug;
+
+    await request(app.getHttpServer()).get(`/${slug}`).expect(302);
+    await request(app.getHttpServer()).get(`/${slug}`).expect(302);
+
+    const statsRes = await request(app.getHttpServer())
+      .get(`/urls/${id}/stats`)
+      .set('Authorization', `Bearer ${token}`)
+      .expect(200);
+    expect(statsRes.body.clickCount).toBe(2);
+
+    const listRes = await request(app.getHttpServer())
+      .get('/urls')
+      .set('Authorization', `Bearer ${token}`)
+      .expect(200);
+    expect(listRes.body[0].clickCount).toBe(2);
   });
 });

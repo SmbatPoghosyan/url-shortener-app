@@ -67,6 +67,13 @@ Authenticated users can manage their shortened URLs using these endpoints:
 
 All routes require a valid JWT token.
 
+## Analytics
+
+Each short URL tracks how many times it has been visited.
+
+- The visit count is returned when listing URLs using `GET /urls`.
+- `GET /urls/:id/stats` returns the click count for a specific URL you own.
+
 ## Deployment
 
 When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
