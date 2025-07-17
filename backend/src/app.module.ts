@@ -12,7 +12,7 @@ import { AuthModule } from './auth/auth.module';
       port: 5432,
       username: 'postgres',
       password: 'postgres',
-      database: 'autocado',
+      database: 'url_shortener',
       synchronize: true,
       autoLoadEntities: true,
     }),
