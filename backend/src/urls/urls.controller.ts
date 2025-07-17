@@ -10,6 +10,7 @@ import {
   Delete,
   UseGuards,
 } from '@nestjs/common';
+import { Throttle, SkipThrottle } from '@nestjs/throttler';
 import { UrlsService } from './urls.service';
 import { CreateUrlDto } from './dto/create-url.dto';
 import { Response } from 'express';
@@ -22,6 +23,7 @@ export class UrlsController {
 
   @Post('urls')
   @UseGuards(JwtAuthGuard)
+  @Throttle({ default: { limit: 20, ttl: 60_000 } })
   create(@Body() dto: CreateUrlDto, @Req() req: any) {
     const userId = req.user.userId;
     return this.urlsService.create(dto, userId);
@@ -52,6 +54,7 @@ export class UrlsController {
   }
 
   @Get(':slug')
+  @SkipThrottle()
   async redirect(@Param('slug') slug: string, @Res() res: Response) {
     const longUrl = await this.urlsService.getLongUrl(slug);
     return res.redirect(longUrl);
