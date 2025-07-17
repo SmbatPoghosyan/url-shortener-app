@@ -3,7 +3,7 @@ import { apiFetch } from '../api';
 
 interface Url {
   slug: string;
-  target: string;
+  longUrl: string;
 }
 
 interface Props {
@@ -35,11 +35,12 @@ const URLForm: React.FC<Props> = ({ onCreated }) => {
     setError('');
     setLoading(true);
     try {
-      const body: Record<string, string> = { target: longUrl };
+      const body: Record<string, string> = { longUrl };
       if (slug) body.slug = slug;
       const res = await apiFetch('http://localhost:3000/urls', {
         method: 'POST',
         body: JSON.stringify(body),
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${localStorage.getItem('token')}` },
       });
       if (!res.ok) {
         const data = await res.json();
@@ -57,30 +58,38 @@ const URLForm: React.FC<Props> = ({ onCreated }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} style={{ marginBottom: '1rem' }}>
-      <div>
-        <label>
+    <form onSubmit={handleSubmit} className="space-y-4 mb-4">
+      <div className="flex flex-col">
+        <label className="text-sm font-medium" htmlFor="longUrl">
           Long URL
-          <input
-            type="url"
-            value={longUrl}
-            onChange={(e) => setLongUrl(e.target.value)}
-            required
-          />
         </label>
+        <input
+          id="longUrl"
+          type="url"
+          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+          value={longUrl}
+          onChange={(e) => setLongUrl(e.target.value)}
+          required
+        />
       </div>
-      <div>
-        <label>
+      <div className="flex flex-col">
+        <label className="text-sm font-medium" htmlFor="slug">
           Custom Slug (optional)
-          <input
-            type="text"
-            value={slug}
-            onChange={(e) => setSlug(e.target.value)}
-          />
         </label>
+        <input
+          id="slug"
+          type="text"
+          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+          value={slug}
+          onChange={(e) => setSlug(e.target.value)}
+        />
       </div>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-      <button type="submit" disabled={loading}>
+      {error && <p className="text-red-600">{error}</p>}
+      <button
+        type="submit"
+        disabled={loading}
+        className="px-4 py-2 rounded bg-indigo-600 text-white disabled:opacity-50"
+      >
         {loading ? 'Creating...' : 'Shorten URL'}
       </button>
     </form>

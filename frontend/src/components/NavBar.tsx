@@ -12,17 +12,30 @@ const NavBar: React.FC = () => {
   };
 
   return (
-    <nav style={{ display: 'flex', gap: '1rem' }}>
-      <Link to="/">Home</Link>
+    <nav className="flex gap-4 p-4 bg-white shadow">
+      <Link className="font-semibold" to="/">
+        Home
+      </Link>
       {token ? (
         <>
-          <Link to="/dashboard">Dashboard</Link>
-          <button onClick={handleLogout}>Logout</button>
+          <Link className="hover:underline" to="/dashboard">
+            Dashboard
+          </Link>
+          <button
+            className="ml-auto text-red-600 hover:underline"
+            onClick={handleLogout}
+          >
+            Logout
+          </button>
         </>
       ) : (
         <>
-          <Link to="/login">Login</Link>
-          <Link to="/signup">Signup</Link>
+          <Link className="hover:underline" to="/login">
+            Login
+          </Link>
+          <Link className="hover:underline" to="/signup">
+            Signup
+          </Link>
         </>
       )}
     </nav>

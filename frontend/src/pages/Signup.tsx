@@ -34,43 +34,51 @@ const Signup: React.FC = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <h1>Signup</h1>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-      <div>
-        <label>
+    <form onSubmit={handleSubmit} className="space-y-4 max-w-sm mx-auto p-4">
+      <h1 className="text-xl font-semibold">Signup</h1>
+      {error && <p className="text-red-600">{error}</p>}
+      <div className="flex flex-col">
+        <label className="text-sm font-medium" htmlFor="email">
           Email
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
         </label>
+        <input
+          id="email"
+          type="email"
+          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+        />
       </div>
-      <div>
-        <label>
+      <div className="flex flex-col">
+        <label className="text-sm font-medium" htmlFor="password">
           Password
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
         </label>
+        <input
+          id="password"
+          type="password"
+          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+        />
       </div>
-      <div>
-        <label>
+      <div className="flex flex-col">
+        <label className="text-sm font-medium" htmlFor="confirm">
           Confirm Password
-          <input
-            type="password"
-            value={confirm}
-            onChange={(e) => setConfirm(e.target.value)}
-            required
-          />
         </label>
+        <input
+          id="confirm"
+          type="password"
+          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+          value={confirm}
+          onChange={(e) => setConfirm(e.target.value)}
+          required
+        />
       </div>
-      <button type="submit">Sign Up</button>
+      <button type="submit" className="px-4 py-2 rounded bg-indigo-600 text-white">
+        Sign Up
+      </button>
     </form>
   );
 };
