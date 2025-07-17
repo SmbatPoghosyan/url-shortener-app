@@ -2,14 +2,35 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
 import { App } from 'supertest/types';
-import { AppModule } from './../src/app.module';
+import { Module } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { AuthModule } from './../src/auth/auth.module';
+import { User } from './../src/users/user.entity';
+import { AppController } from './../src/app.controller';
+import { AppService } from './../src/app.service';
+
+@Module({
+  imports: [
+    TypeOrmModule.forRoot({
+      type: 'sqlite',
+      database: ':memory:',
+      dropSchema: true,
+      entities: [User],
+      synchronize: true,
+    }),
+    AuthModule,
+  ],
+  controllers: [AppController],
+  providers: [AppService],
+})
+class TestAppModule {}
 
 describe('AppController (e2e)', () => {
   let app: INestApplication<App>;
 
   beforeEach(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
-      imports: [AppModule],
+      imports: [TestAppModule],
     }).compile();
 
     app = moduleFixture.createNestApplication();
@@ -21,5 +42,28 @@ describe('AppController (e2e)', () => {
       .get('/')
       .expect(200)
       .expect('Hello World!');
+  });
+
+  it('auth sign-up and sign-in', async () => {
+    const email = 'test@example.com';
+    const password = 'password';
+
+    await request(app.getHttpServer())
+      .post('/auth/sign-up')
+      .send({ email, password })
+      .expect(201);
+
+    const res = await request(app.getHttpServer())
+      .post('/auth/sign-in')
+      .send({ email, password })
+      .expect(201);
+
+    expect(res.body.accessToken).toBeDefined();
+    expect(res.body.user.email).toBe(email);
+
+    await request(app.getHttpServer())
+      .get('/profile')
+      .set('Authorization', `Bearer ${res.body.accessToken}`)
+      .expect(200);
   });
 });
