@@ -3,15 +3,15 @@ services:
   db:
     image: postgres:15-alpine
     environment:
-      POSTGRES_USER: autocado
-      POSTGRES_PASSWORD: autocado1
-      POSTGRES_DB: autocado
+      POSTGRES_USER: url-shortener
+      POSTGRES_PASSWORD: url-shortener1
+      POSTGRES_DB: url_shortener
     volumes:
       - db_data:/var/lib/postgresql/data
     ports:
       - '5432:5432'
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U autocado -d autocado"]
+      test: ["CMD-SHELL", "pg_isready -U url-shortener -d url_shortener"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -21,9 +21,9 @@ services:
       PORT: 3000
       DB_HOST: db
       DB_PORT: 5432
-      DB_USERNAME: autocado
-      DB_PASSWORD: autocado1
-      DB_NAME: autocado
+      DB_USERNAME: url-shortener
+      DB_PASSWORD: url-shortener1
+      DB_NAME: url_shortener
       JWT_SECRET: supersecret
     depends_on:
       db:
