@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 import Input from '../components/ui/Input';
 import Button from '../components/ui/Button';
+import { apiFetch } from '../api';
 
 const Login: React.FC = () => {
   const navigate = useNavigate();
@@ -14,9 +15,8 @@ const Login: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const res = await fetch('http://localhost:3000/auth/sign-in', {
+      const res = await apiFetch('/auth/sign-in', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
       });
 

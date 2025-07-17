@@ -36,10 +36,9 @@ const URLForm: React.FC<Props> = ({ onCreated }) => {
     try {
       const body: Record<string, string> = { longUrl };
       if (slug) body.slug = slug;
-      const res = await apiFetch('http://localhost:3000/urls', {
+      const res = await apiFetch('/urls', {
         method: 'POST',
         body: JSON.stringify(body),
-        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${localStorage.getItem('token')}` },
       });
       if (!res.ok) {
         const data = await res.json();

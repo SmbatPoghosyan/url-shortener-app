@@ -20,11 +20,11 @@ import { UrlsModule } from './urls/urls.module';
           }
         : {
             type: 'postgres',
-            host: 'localhost',
-            port: 5432,
-            username: 'autocado',
-            password: 'autocado1',
-            database: 'autocado',
+            host: process.env.DB_HOST || 'localhost',
+            port: parseInt(process.env.DB_PORT || '5432', 10),
+            username: process.env.DB_USERNAME || 'autocado',
+            password: process.env.DB_PASSWORD || 'autocado1',
+            database: process.env.DB_NAME || 'autocado',
             synchronize: true,
             autoLoadEntities: true,
           },

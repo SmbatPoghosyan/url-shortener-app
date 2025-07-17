@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import URLForm from '../components/URLForm';
-import { apiFetch } from '../api';
+import { apiFetch, API_BASE_URL } from '../api';
 import UrlItem, { Url } from '../components/UrlItem';
 
 
@@ -11,7 +11,7 @@ const Dashboard: React.FC = () => {
 
   const fetchUrls = async () => {
     try {
-      const res = await apiFetch('http://localhost:3000/urls');
+      const res = await apiFetch('/urls');
       if (!res.ok) {
         throw new Error('Failed to load URLs');
       }
@@ -47,12 +47,12 @@ const Dashboard: React.FC = () => {
         <p className="text-green-700">
           Short URL created:{' '}
           <a
-            href={`http://localhost:3000/${created.slug}`}
+            href={`${API_BASE_URL}/${created.slug}`}
             className="underline"
             target="_blank"
             rel="noopener noreferrer"
           >
-            {`http://localhost:3000/${created.slug}`}
+            {`${API_BASE_URL}/${created.slug}`}
           </a>
         </p>
       )}

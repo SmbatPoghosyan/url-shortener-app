@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Input from './ui/Input';
 import Button from './ui/Button';
-import { apiFetch } from '../api';
+import { apiFetch, API_BASE_URL } from '../api';
 
 export interface Url {
   id: string;
@@ -25,7 +25,7 @@ const UrlItem: React.FC<Props> = ({ url, onUpdate, onDelete }) => {
     setLoading(true);
     setError('');
     try {
-      const res = await apiFetch(`http://localhost:3000/urls/${url.id}`, {
+      const res = await apiFetch(`/urls/${url.id}`, {
         method: 'PATCH',
         body: JSON.stringify({ slug }),
       });
@@ -48,7 +48,7 @@ const UrlItem: React.FC<Props> = ({ url, onUpdate, onDelete }) => {
     setLoading(true);
     setError('');
     try {
-      const res = await apiFetch(`http://localhost:3000/urls/${url.id}`, {
+      const res = await apiFetch(`/urls/${url.id}`, {
         method: 'DELETE',
       });
       if (!res.ok) {
@@ -99,12 +99,12 @@ const UrlItem: React.FC<Props> = ({ url, onUpdate, onDelete }) => {
             </a>
           </span>
           <a
-            href={`http://localhost:3000/${url.slug}`}
+            href={`${API_BASE_URL}/${url.slug}`}
             className="text-sm text-gray-600 underline"
             target="_blank"
             rel="noopener noreferrer"
           >
-            {`http://localhost:3000/${url.slug}`}
+            {`${API_BASE_URL}/${url.slug}`}
           </a>
           {error && <p className="text-red-600 text-sm">{error}</p>}
           <div className="flex gap-2">

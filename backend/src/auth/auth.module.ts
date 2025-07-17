@@ -12,7 +12,7 @@ import { JwtStrategy } from './jwt.strategy';
     TypeOrmModule.forFeature([User]),
     PassportModule,
     JwtModule.register({
-      secret: 'secret',
+      secret: process.env.JWT_SECRET || 'secret',
       signOptions: { expiresIn: '1h' },
     }),
   ],
