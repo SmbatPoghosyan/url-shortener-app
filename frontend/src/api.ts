@@ -8,7 +8,7 @@ export const apiFetch = async (
     ...(options.headers || {}),
   };
   if (token) {
-    headers['Authorization'] = `Bearer ${token}`;
+    (headers as Record<string, string>)['Authorization'] = `Bearer ${token}`;
   }
   const response = await fetch(path, { ...options, headers });
   return response;
