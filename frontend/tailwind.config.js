@@ -5,7 +5,11 @@ module.exports = {
     "./public/index.html",
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        primary: '#1877F2',
+      },
+    },
   },
   plugins: [require('@tailwindcss/forms')],
 };

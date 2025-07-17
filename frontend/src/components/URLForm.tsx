@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { apiFetch } from '../api';
+import Input from './ui/Input';
+import Button from './ui/Button';
 
 interface Url {
   slug: string;
@@ -59,39 +61,33 @@ const URLForm: React.FC<Props> = ({ onCreated }) => {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4 mb-4">
-      <div className="flex flex-col">
+      <div className="flex flex-col gap-1">
         <label className="text-sm font-medium" htmlFor="longUrl">
           Long URL
         </label>
-        <input
+        <Input
           id="longUrl"
           type="url"
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
           value={longUrl}
           onChange={(e) => setLongUrl(e.target.value)}
           required
         />
       </div>
-      <div className="flex flex-col">
+      <div className="flex flex-col gap-1">
         <label className="text-sm font-medium" htmlFor="slug">
           Custom Slug (optional)
         </label>
-        <input
+        <Input
           id="slug"
           type="text"
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
           value={slug}
           onChange={(e) => setSlug(e.target.value)}
         />
       </div>
       {error && <p className="text-red-600">{error}</p>}
-      <button
-        type="submit"
-        disabled={loading}
-        className="px-4 py-2 rounded bg-indigo-600 text-white disabled:opacity-50"
-      >
+      <Button type="submit" disabled={loading} className="w-full">
         {loading ? 'Creating...' : 'Shorten URL'}
-      </button>
+      </Button>
     </form>
   );
 };

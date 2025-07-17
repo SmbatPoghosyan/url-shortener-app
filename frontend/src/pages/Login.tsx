@@ -1,6 +1,8 @@
 import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
+import Input from '../components/ui/Input';
+import Button from '../components/ui/Button';
 
 const Login: React.FC = () => {
   const navigate = useNavigate();
@@ -36,14 +38,13 @@ const Login: React.FC = () => {
     <form onSubmit={handleSubmit} className="space-y-4 max-w-sm mx-auto p-4">
       <h1 className="text-xl font-semibold">Login</h1>
       {error && <p className="text-red-600">{error}</p>}
-      <div className="flex flex-col">
+      <div className="flex flex-col gap-1">
         <label className="text-sm font-medium" htmlFor="email">
           Email
         </label>
-        <input
+        <Input
           id="email"
           type="email"
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
@@ -53,21 +54,17 @@ const Login: React.FC = () => {
         <label className="text-sm font-medium" htmlFor="password">
           Password
         </label>
-        <input
+        <Input
           id="password"
           type="password"
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
         />
       </div>
-      <button
-        type="submit"
-        className="px-4 py-2 rounded bg-indigo-600 text-white"
-      >
+      <Button type="submit" className="w-full">
         Log In
-      </button>
+      </Button>
     </form>
   );
 };

@@ -12,8 +12,8 @@ const NavBar: React.FC = () => {
   };
 
   return (
-    <nav className="flex gap-4 p-4 bg-white shadow">
-      <Link className="font-semibold" to="/">
+    <nav className="flex gap-4 p-4 bg-primary text-white shadow">
+      <Link className="font-semibold hover:underline" to="/">
         Home
       </Link>
       {token ? (
@@ -22,7 +22,7 @@ const NavBar: React.FC = () => {
             Dashboard
           </Link>
           <button
-            className="ml-auto text-red-600 hover:underline"
+            className="ml-auto hover:underline"
             onClick={handleLogout}
           >
             Logout

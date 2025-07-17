@@ -35,7 +35,7 @@ const Dashboard: React.FC = () => {
   };
 
   return (
-    <div className="p-4 space-y-4">
+    <div className="p-4 space-y-4 max-w-2xl mx-auto">
       <h1 className="text-2xl font-semibold">Dashboard</h1>
       <URLForm onCreated={handleCreated} />
       {created && (
@@ -54,7 +54,7 @@ const Dashboard: React.FC = () => {
       {error && <p className="text-red-600">{error}</p>}
       <ul className="space-y-2">
         {urls.map((u) => (
-          <li key={u.slug} className="flex flex-col">
+          <li key={u.slug} className="flex flex-col rounded-md bg-white p-3 shadow">
             <span>
               <a
                 href={u.longUrl}
