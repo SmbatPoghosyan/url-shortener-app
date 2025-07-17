@@ -2,11 +2,8 @@ import React, { useState } from 'react';
 import { apiFetch } from '../api';
 import Input from './ui/Input';
 import Button from './ui/Button';
+import { Url } from './UrlItem';
 
-interface Url {
-  slug: string;
-  longUrl: string;
-}
 
 interface Props {
   onCreated: (url: Url) => void;

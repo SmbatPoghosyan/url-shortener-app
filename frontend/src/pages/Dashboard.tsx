@@ -1,11 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import URLForm from '../components/URLForm';
 import { apiFetch } from '../api';
+import UrlItem, { Url } from '../components/UrlItem';
 
-interface Url {
-  slug: string;
-  longUrl: string;
-}
 
 const Dashboard: React.FC = () => {
   const [urls, setUrls] = useState<Url[]>([]);
@@ -34,6 +31,14 @@ const Dashboard: React.FC = () => {
     setCreated(url);
   };
 
+  const handleUpdate = (updated: Url) => {
+    setUrls((prev) => prev.map((u) => (u.id === updated.id ? updated : u)));
+  };
+
+  const handleDelete = (id: string) => {
+    setUrls((prev) => prev.filter((u) => u.id !== id));
+  };
+
   return (
     <div className="p-4 space-y-4 max-w-2xl mx-auto">
       <h1 className="text-2xl font-semibold">Dashboard</h1>
@@ -54,26 +59,12 @@ const Dashboard: React.FC = () => {
       {error && <p className="text-red-600">{error}</p>}
       <ul className="space-y-2">
         {urls.map((u) => (
-          <li key={u.slug} className="flex flex-col rounded-md bg-white p-3 shadow">
-            <span>
-              <a
-                href={u.longUrl}
-                className="text-blue-600 underline"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {u.longUrl}
-              </a>
-            </span>
-            <a
-              href={`http://localhost:3000/${u.slug}`}
-              className="text-sm text-gray-600 underline"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              {`http://localhost:3000/${u.slug}`}
-            </a>
-          </li>
+          <UrlItem
+            key={u.id}
+            url={u}
+            onUpdate={handleUpdate}
+            onDelete={handleDelete}
+          />
         ))}
       </ul>
     </div>
