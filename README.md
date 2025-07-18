@@ -90,7 +90,45 @@ The application uses PostgreSQL as the primary database. The Docker configuratio
 - **Health checks**: Automatic database health monitoring
 - **Persistent storage**: Data persists in Docker volumes
 
-## 🐳 Docker Setup & Running
+## � Quick Start
+
+### Option 1: Using Makefile (Recommended)
+
+1. **Clone and setup**:
+   ```bash
+   git clone <repository-url>
+   cd url-shortener-app
+   make quick-start
+   ```
+
+2. **Alternative Makefile commands**:
+   ```bash
+   # Quick development start
+   make dev
+
+   # Run tests
+   make test
+
+   # Build for production
+   make build
+
+   # Docker setup
+   make docker-up
+   ```
+
+3. **Check application health**:
+   ```bash
+   make health
+   ```
+
+4. **View all available commands**:
+   ```bash
+   make help
+   ```
+
+### Option 2: Using Docker Directly
+
+## �🐳 Docker Setup & Running
 
 ### Prerequisites
 
@@ -213,14 +251,74 @@ The application consists of three main services:
 - `npm run install:all` - Install dependencies for all packages
 - `npm run clean` - Clean all node_modules
 
-### Make Commands
+### 🛠️ Makefile Commands
 
-- `make setup` - Initial project setup
-- `make dev` - Start development servers
-- `make docker-up` - Start with Docker
+This project includes a comprehensive Makefile for build automation. Run `make help` to see all available commands:
+
+#### Installation
+- `make install` - Install all dependencies (frontend + backend)
+- `make install-backend` - Install only backend dependencies
+- `make install-frontend` - Install only frontend dependencies
+
+#### Development
+- `make dev` - Start both backend and frontend in development mode
+- `make dev-backend` - Start only backend development server
+- `make dev-frontend` - Start only frontend development server
+
+#### Testing
+- `make test` - Run all tests
+- `make test-backend` - Run backend tests
+- `make test-frontend` - Run frontend tests
+- `make test-coverage` - Run backend tests with coverage report
+- `make test-watch` - Run backend tests in watch mode
+
+#### Building
+- `make build` - Build both applications for production
+- `make build-backend` - Build only backend
+- `make build-frontend` - Build only frontend
+
+#### Docker Operations
+- `make docker-build` - Build Docker containers
+- `make docker-up` - Start Docker containers
 - `make docker-down` - Stop Docker containers
-- `make docker-build` - Build Docker images
-- `make clean` - Clean dependencies
+- `make docker-logs` - View Docker container logs
+- `make docker-clean` - Clean Docker containers and images
+
+#### Database Management
+- `make db-up` - Start database container only
+- `make db-down` - Stop database container
+- `make db-reset` - Reset database (remove volume and restart)
+- `make db-logs` - View database logs
+
+#### Code Quality
+- `make lint` - Run linting for both projects
+- `make lint-backend` - Run backend linting
+- `make lint-frontend` - Run frontend linting
+- `make format` - Format code for both projects
+- `make format-backend` - Format backend code
+- `make format-frontend` - Format frontend code
+
+#### Cleaning
+- `make clean` - Clean build artifacts
+- `make clean-backend` - Clean backend build artifacts
+- `make clean-frontend` - Clean frontend build artifacts
+- `make clean-all` - Clean everything including node_modules
+
+#### Production
+- `make prod-setup` - Setup for production (install + build)
+- `make prod-start` - Start production servers
+- `make prod-stop` - Stop production servers
+
+#### Health & Utilities
+- `make health` - Check health of all services
+- `make health-backend` - Check backend health
+- `make health-frontend` - Check frontend health
+- `make check-ports` - Check if required ports are available
+
+#### Quick Commands
+- `make quick-start` - Quick start (install + dev)
+- `make quick-test` - Quick test (install + test)
+- `make quick-build` - Quick build (install + build)
 
 ## 🌐 Application URLs
 
