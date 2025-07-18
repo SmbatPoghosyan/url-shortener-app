@@ -47,7 +47,7 @@ dev-backend: ## Start backend development server
 
 dev-frontend: ## Start frontend development server
 	@echo "$(YELLOW)Starting frontend development server...$(NC)"
-	cd $(FRONTEND_DIR) && npm run dev
+	cd $(FRONTEND_DIR) && npm run start
 
 ##@ Testing
 .PHONY: test test-backend test-frontend test-coverage test-watch
@@ -90,7 +90,7 @@ docker-build: ## Build Docker containers
 docker-up: ## Start Docker containers
 	@echo "$(YELLOW)Starting Docker containers...$(NC)"
 	$(DOCKER_COMPOSE) up -d
-	@echo "$(GREEN)Containers started! Backend: http://localhost:3000, Frontend: http://localhost:3001$(NC)"
+	@echo "$(GREEN)Containers started! Backend: http://localhost:3000, Frontend: http://localhost:3200$(NC)"
 
 docker-down: ## Stop Docker containers
 	@echo "$(YELLOW)Stopping Docker containers...$(NC)"
@@ -188,7 +188,7 @@ health-backend: ## Check backend health
 
 health-frontend: ## Check frontend health
 	@echo "$(YELLOW)Checking frontend health...$(NC)"
-	@curl -f http://localhost:3001 || echo "$(RED)Frontend is not responding$(NC)"
+	@curl -f http://localhost:3200 || echo "$(RED)Frontend is not responding$(NC)"
 
 ##@ Quick Commands
 .PHONY: quick-start quick-test quick-build
@@ -206,10 +206,10 @@ logs-backend: ## View backend logs (if running)
 
 logs-frontend: ## View frontend logs (if running)
 	@echo "$(YELLOW)Frontend logs:$(NC)"
-	cd $(FRONTEND_DIR) && npm run dev 2>&1 | tail -f
+	cd $(FRONTEND_DIR) && npm run start 2>&1 | tail -f
 
 check-ports: ## Check if required ports are available
 	@echo "$(YELLOW)Checking required ports...$(NC)"
 	@lsof -i :3000 && echo "$(RED)Port 3000 is in use$(NC)" || echo "$(GREEN)Port 3000 is available$(NC)"
-	@lsof -i :3001 && echo "$(RED)Port 3001 is in use$(NC)" || echo "$(GREEN)Port 3001 is available$(NC)"
+	@lsof -i :3200 && echo "$(RED)Port 3200 is in use$(NC)" || echo "$(GREEN)Port 3200 is available$(NC)"
 	@lsof -i :5432 && echo "$(RED)Port 5432 is in use$(NC)" || echo "$(GREEN)Port 5432 is available$(NC)"
